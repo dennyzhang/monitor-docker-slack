@@ -9,7 +9,7 @@
 ## Description :
 ## --
 ## Created : <2017-08-20>
-## Updated: Time-stamp: <2017-08-27 16:58:11>
+## Updated: Time-stamp: <2017-08-27 17:09:01>
 ##-------------------------------------------------------------------
 import requests
 import re
@@ -94,9 +94,9 @@ def monitor_docker_slack(docker_sock_file, white_pattern_list):
         err_msg = "Detected Unhealthy Containers: \n%s\n%s" % (container_list_to_str(unhealthy_container_list), err_msg)
 
     if err_msg == "":
-        return(0, "OK: no stopped or unhealthy containers")
+        return("OK", "OK: no stopped or unhealthy containers")
     else:
-        return (1, err_msg)
+        return ("ERROR", err_msg)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -123,7 +123,8 @@ if __name__ == '__main__':
     should_send_alert = True
     while True:
         (status, err_msg) = monitor_docker_slack("/var/run/docker.sock", white_pattern_list)
-        if status == 1:
+        print("%s: %s" % (status, err_msg))
+        if status == "OK":
             if should_send_alert is True:
                 slack_client.api_call(
                     "chat.postMessage",
