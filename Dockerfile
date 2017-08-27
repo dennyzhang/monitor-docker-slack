@@ -27,6 +27,7 @@ user root
 WORKDIR /
 Add monitor-docker-slack.py /monitor-docker-slack.py
 
-RUN chmod o+x /*.py
+RUN chmod o+x /*.py && \
+    pip install requests-unixsocket==0.1.5
 
 ENTRYPOINT ["/monitor-docker-slack.py"]
