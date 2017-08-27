@@ -9,13 +9,14 @@
 ## Description :
 ## --
 ## Created : <2017-08-20>
-## Updated: Time-stamp: <2017-08-27 14:08:21>
+## Updated: Time-stamp: <2017-08-27 15:19:20>
 ##-------------------------------------------------------------------
 import requests
 import re
 import requests_unixsocket
 import json
 import argparse
+import time
 
 def send_slack_notification(slack_channel, slack_token, msg_title, msg_content):
     # TODO
@@ -79,6 +80,26 @@ def container_list_to_str(container_list):
         msg = "%s: %s\n%s" % (names, status, msg)
     return msg
 
+def monitor_docker_slack(docker_sock_file, white_pattern_list):
+    container_list = list_containers_by_sock(docker_sock_file)
+    stopped_container_list = get_stopped_containers(container_list)
+    unhealthy_container_list = get_unhealthy_containers(container_list)
+
+    name_pattern_list = white_pattern_list
+    stopped_container_list = containers_remove_by_name_pattern(stopped_container_list, name_pattern_list)
+    unhealthy_container_list = containers_remove_by_name_pattern(unhealthy_container_list, name_pattern_list)
+
+    err_msg = ""
+    if len(stopped_container_list) != 0:
+        err_msg = "Detected Stopped Containers: \n%s\n%s" % (container_list_to_str(stopped_container_list), err_msg)
+    if len(unhealthy_container_list) != 0:
+        err_msg = "Detected Unhealthy Containers: \n%s\n%s" % (container_list_to_str(unhealthy_container_list), err_msg)
+
+    if err_msg == "":
+        print("OK: no stopped or unhealthy containers")
+    else:
+        print(err_msg)
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--whitelist', default='', required=False, \
@@ -86,19 +107,10 @@ if __name__ == '__main__':
     parser.add_argument('--check_interval', default='300', required=False, \
                         help="Periodical check. By seconds.", type=int)
     l = parser.parse_args()
-
     check_interval = l.check_interval
-    docker_sock_file = "/var/run/docker.sock"
+    white_pattern_list = l.whitelist.split(',')
 
-    # TODO: add a loop
-    container_list = list_containers_by_sock(docker_sock_file)
-    stopped_container_list = get_stopped_containers(container_list)
-    unhealthy_container_list = get_unhealthy_containers(container_list)
-
-    name_pattern_list = l.whitelist.split(',')
-    stopped_container_list = containers_remove_by_name_pattern(stopped_container_list, name_pattern_list)
-    unhealthy_container_list = containers_remove_by_name_pattern(unhealthy_container_list, name_pattern_list)
-    
-    print("stopped_container_list: %s\n\nunhealthy_container_list: %s" % \
-          (container_list_to_str(stopped_container_list), container_list_to_str(unhealthy_container_list)))
+    while True:
+        monitor_docker_slack("/var/run/docker.sock", white_pattern_list)
+        time.sleep(check_interval)
 ## File : monitor-docker-slack.py ends
