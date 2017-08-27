@@ -9,7 +9,7 @@
 ## Description :
 ## --
 ## Created : <2017-08-20>
-## Updated: Time-stamp: <2017-08-27 17:28:30>
+## Updated: Time-stamp: <2017-08-27 17:30:20>
 ##-------------------------------------------------------------------
 import requests
 import re
@@ -118,12 +118,14 @@ if __name__ == '__main__':
         white_pattern_list = []
 
     slack_channel = l.slack_channel
+    slack_token = l.slack_token
+
     if slack_channel == '':
         print("Warning: Please provide slack channel, to receive alerts properly.")
     if slack_token == '':
         print("Warning: Please provide slack token.")
 
-    slack_client = SlackClient(l.slack_token)
+    slack_client = SlackClient(slack_token)
 
     # TODO
     slack_username = "@denny"
