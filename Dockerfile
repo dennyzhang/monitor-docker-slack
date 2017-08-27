@@ -25,19 +25,13 @@ LABEL maintainer "Denny<denny@dennyzhang.com>"
 
 user root
 WORKDIR /
-Add monitor-docker-slack.py /monitor-docker-slack.py
+ADD monitor-docker-slack.py /monitor-docker-slack.py
+ADD monitor-docker-slack.sh /monitor-docker-slack.sh
 
-RUN chmod o+x /*.py && \
-    pip install requests-unixsocket==0.1.5
+RUN chmod o+x /*.sh && chmod o+x /*.py && \
+    pip install requests-unixsocket==0.1.5 && \
 
-env SLACK_CHANNEL ""
-env SLACK_USERNAME ""
-env SLACK_TOKEN ""
-env MSG_PREFIX ""
+# Verify docker image
+    pip show requests-unixsocket | grep "0.1.5"
 
-ENTRYPOINT ["/monitor-docker-slack.py", \
-           "--whitelist", WHITE_LIST, \
-           "--slack_channel", SLACK_CHANNEL, \
-           "--slack_username", SLACK_USERNAME, \
-           "--slack_token", SLACK_TOKEN, \
-           "--msg_prefix", MSG_PREFIX]
+ENTRYPOINT ["/monitor-docker-slack.sh"]

@@ -9,7 +9,7 @@
 ## Description :
 ## --
 ## Created : <2017-08-20>
-## Updated: Time-stamp: <2017-08-27 15:36:12>
+## Updated: Time-stamp: <2017-08-27 15:51:01>
 ##-------------------------------------------------------------------
 import requests
 import re
@@ -121,6 +121,7 @@ if __name__ == '__main__':
 
     if white_pattern_list == ['']:
         white_pattern_list = []
+
     while True:
         monitor_docker_slack("/var/run/docker.sock", white_pattern_list)
         time.sleep(check_interval)
