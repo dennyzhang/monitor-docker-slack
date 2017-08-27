@@ -18,6 +18,7 @@ Read more: https://www.dennyzhang.com/docker_monitor
 export SLACK_CHANNEL="#XXX"
 export SLACK_USERNAME="XXX"
 export SLACK_TOKEN="xoxp-XXX-XXX-XXX-XXXXXXXX"
+export MSG_PREFIX="Monitoring On XX.XX.XX.XX"
 ```
 
 - Start container to check
@@ -28,10 +29,10 @@ docker stop $container_name; docker rm "$container_name"
 
 # Start container to monitor docker healthcheck status
 docker run -v /var/run/docker.sock:/var/run/docker.sock \
-   -t -d --privileged -h $container_name \
+   -t -d --privileged -h $container_name --name $container_name \
    -e SLACK_CHANNEL="$SLACK_CHANNEL" -e SLACK_USERNAME="$SLACK_USERNAME" \
-   -e SLACK_TOKEN="$SLACK_TOKEN" --restart=always \
-   --name $container_name denny/monitor-docker-slack:latest
+   -e SLACK_TOKEN="$SLACK_TOKEN" -e MSG_PREFIX="$MSG_PREFIX" \
+   --restart=always denny/monitor-docker-slack:latest
 
 # Check status
 docker logs "$container_name"
