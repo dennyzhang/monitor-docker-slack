@@ -17,7 +17,6 @@ Read more: https://www.dennyzhang.com/docker_monitor
 ```
 export SLACK_CHANNEL="#XXX"
 export SLACK_USERNAME="XXX"
-export MSG_PREFIX="Docker Env in XXX"
 export SLACK_TOKEN="xoxp-XXX-XXX-XXX-XXXXXXXX"
 ```
 
@@ -29,3 +28,9 @@ docker run -v /var/run/docker.sock:/var/run/docker.sock \
    -t -d --privileged -h $container_name --name $container_name \
    denny/monitor-docker-slack:latest
 ```
+
+# More customization
+- TODO: add message
+export MSG_PREFIX="Docker Env in XXX"
+
+- TODO: add whitelist for checking

@@ -20,6 +20,8 @@ env SLACK_USERNAME ""
 env SLACK_TOKEN ""
 env MSG_PREFIX ""
 env WHITE_LIST ""
+# seconds
+env CHECK_INTERVAL "300"
 
 LABEL maintainer "Denny<denny@dennyzhang.com>"
 
