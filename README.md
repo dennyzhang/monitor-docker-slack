@@ -44,6 +44,7 @@ docker logs "$container_name"
 ```
 export MSG_PREFIX="Docker Env in Denny's env"
 ```
+![](images/slack_prefix.png)
 
 - TODO: add whitelist for checking
 ```
