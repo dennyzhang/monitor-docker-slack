@@ -9,7 +9,7 @@
 ## Description :
 ## --
 ## Created : <2017-08-20>
-## Updated: Time-stamp: <2017-08-27 17:35:04>
+## Updated: Time-stamp: <2017-08-27 18:17:35>
 ##-------------------------------------------------------------------
 import requests
 import re
@@ -131,23 +131,24 @@ if __name__ == '__main__':
     # TODO
     slack_username = "@denny"
 
-    should_send_alert = True
+    has_send_error_alert = False
     while True:
         (status, err_msg) = monitor_docker_slack("/var/run/docker.sock", white_pattern_list)
         if msg_prefix != "":
             err_msg = "%s\n%s" % (msg_prefix, err_msg)
         print("%s: %s" % (status, err_msg))
         if status == "OK":
-            if should_send_alert is True:
+            if has_send_error_alert is True:
+                slack_client.api_call("chat.postMessage", user = slack_username, \
+                                      as_user = False, \
+                                      channel = slack_channel, text = err_msg)
+                has_send_error_alert = False
+        else:
+            if has_send_error_alert is False:
                 slack_client.api_call("chat.postMessage", user = slack_username, \
                                       as_user = False, \
                                       channel = slack_channel, text = err_msg)
                 # avoid send alerts over and over again
-                should_send_alert = False
-        else:
-            slack_client.api_call("chat.postMessage", user = slack_username, \
-                                  as_user = False, \
-                                  channel = slack_channel, text = err_msg)
-            should_send_alert = True
+                has_send_error_alert = True
         time.sleep(check_interval)
 ## File : monitor-docker-slack.py ends
