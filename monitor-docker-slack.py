@@ -9,7 +9,7 @@
 ## Description :
 ## --
 ## Created : <2017-08-20>
-## Updated: Time-stamp: <2017-08-27 15:19:20>
+## Updated: Time-stamp: <2017-08-27 15:25:58>
 ##-------------------------------------------------------------------
 import requests
 import re
@@ -61,6 +61,8 @@ def get_unhealthy_containers(container_list):
 
 # TODO: simplify this by lambda
 def containers_remove_by_name_pattern(container_list, name_pattern_list):
+    if len(name_pattern_list) == 0:
+        return container_list
     l = []
     for container in container_list:
         (names, status) = container
@@ -85,9 +87,8 @@ def monitor_docker_slack(docker_sock_file, white_pattern_list):
     stopped_container_list = get_stopped_containers(container_list)
     unhealthy_container_list = get_unhealthy_containers(container_list)
 
-    name_pattern_list = white_pattern_list
-    stopped_container_list = containers_remove_by_name_pattern(stopped_container_list, name_pattern_list)
-    unhealthy_container_list = containers_remove_by_name_pattern(unhealthy_container_list, name_pattern_list)
+    stopped_container_list = containers_remove_by_name_pattern(stopped_container_list, white_pattern_list)
+    unhealthy_container_list = containers_remove_by_name_pattern(unhealthy_container_list, white_pattern_list)
 
     err_msg = ""
     if len(stopped_container_list) != 0:
@@ -110,6 +111,8 @@ if __name__ == '__main__':
     check_interval = l.check_interval
     white_pattern_list = l.whitelist.split(',')
 
+    if white_pattern_list == ['']:
+        white_pattern_list = []
     while True:
         monitor_docker_slack("/var/run/docker.sock", white_pattern_list)
         time.sleep(check_interval)
