@@ -32,14 +32,21 @@ docker run -v /var/run/docker.sock:/var/run/docker.sock \
    -t -d --privileged -h $container_name --name $container_name \
    -e SLACK_CHANNEL="$SLACK_CHANNEL" -e SLACK_USERNAME="$SLACK_USERNAME" \
    -e SLACK_TOKEN="$SLACK_TOKEN" -e MSG_PREFIX="$MSG_PREFIX" \
-   --restart=always denny/monitor-docker-slack:latest
+   -e WHITE_LIST="$WHITE_LIST" --restart=always \
+   denny/monitor-docker-slack:latest
 
 # Check status
 docker logs "$container_name"
 ```
 
 # More customization
-- TODO: add message
-export MSG_PREFIX="Docker Env in XXX"
+- Add message prefix for the slack notification
+```
+export MSG_PREFIX="Docker Env in Denny's env"
+```
 
 - TODO: add whitelist for checking
+```
+export MSG_PREFIX="Docker Env in Denny's env"
+export WHITE_LIST="nodeexporter,ngin.*"
+```
