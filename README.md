@@ -46,8 +46,9 @@ export MSG_PREFIX="Docker Env in Denny's env"
 ```
 ![](images/slack_prefix.png)
 
-- TODO: add whitelist for checking
+- Skip checking certain containers by customizing WHITE_LIST env.
 ```
 export MSG_PREFIX="Docker Env in Denny's env"
 export WHITE_LIST="nodeexporter,ngin.*"
 ```
+![](images/slack_whitelist.png)
