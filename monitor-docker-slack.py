@@ -9,7 +9,7 @@
 ## Description :
 ## --
 ## Created : <2017-08-20>
-## Updated: Time-stamp: <2017-08-27 17:30:20>
+## Updated: Time-stamp: <2017-08-27 17:35:04>
 ##-------------------------------------------------------------------
 import requests
 import re
@@ -119,6 +119,7 @@ if __name__ == '__main__':
 
     slack_channel = l.slack_channel
     slack_token = l.slack_token
+    msg_prefix = l.msg_prefix
 
     if slack_channel == '':
         print("Warning: Please provide slack channel, to receive alerts properly.")
@@ -133,6 +134,8 @@ if __name__ == '__main__':
     should_send_alert = True
     while True:
         (status, err_msg) = monitor_docker_slack("/var/run/docker.sock", white_pattern_list)
+        if msg_prefix != "":
+            err_msg = "%s\n%s" % (msg_prefix, err_msg)
         print("%s: %s" % (status, err_msg))
         if status == "OK":
             if should_send_alert is True:
