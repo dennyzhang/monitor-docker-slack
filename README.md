@@ -25,7 +25,8 @@ export SLACK_TOKEN="xoxp-XXX-XXX-XXX-XXXXXXXX"
 container_name="monitor-docker-slack"
 # Start container to monitor docker healthcheck status
 docker run -v /var/run/docker.sock:/var/run/docker.sock \
-   -t -d --privileged -h $container_name --name $container_name \
+   -t -d --privileged -h $container_name \
+   --name $container_name --restart=always \
    denny/monitor-docker-slack:latest
 ```
 

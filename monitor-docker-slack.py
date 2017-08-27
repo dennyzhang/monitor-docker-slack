@@ -9,7 +9,7 @@
 ## Description :
 ## --
 ## Created : <2017-08-20>
-## Updated: Time-stamp: <2017-08-27 15:51:01>
+## Updated: Time-stamp: <2017-08-27 16:49:31>
 ##-------------------------------------------------------------------
 import requests
 import re
@@ -19,7 +19,7 @@ import argparse
 import time
 
 def send_slack_notification(slack_channel, slack_token, msg_title, msg_content):
-    # TODO
+    # TODO send out slack notification
     return True
 
 def name_in_list(name, name_pattern_list):
