@@ -9,7 +9,7 @@
 ## Description :
 ## --
 ## Created : <2017-08-20>
-## Updated: Time-stamp: <2017-08-27 16:49:31>
+## Updated: Time-stamp: <2017-08-27 16:58:11>
 ##-------------------------------------------------------------------
 import requests
 import re
@@ -17,10 +17,7 @@ import requests_unixsocket
 import json
 import argparse
 import time
-
-def send_slack_notification(slack_channel, slack_token, msg_title, msg_content):
-    # TODO send out slack notification
-    return True
+from slackclient import SlackClient
 
 def name_in_list(name, name_pattern_list):
     for name_pattern in name_pattern_list:
@@ -97,9 +94,9 @@ def monitor_docker_slack(docker_sock_file, white_pattern_list):
         err_msg = "Detected Unhealthy Containers: \n%s\n%s" % (container_list_to_str(unhealthy_container_list), err_msg)
 
     if err_msg == "":
-        print("OK: no stopped or unhealthy containers")
+        return(0, "OK: no stopped or unhealthy containers")
     else:
-        print(err_msg)
+        return (1, err_msg)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -109,8 +106,6 @@ if __name__ == '__main__':
                         help="Periodical check. By seconds.", type=int)
     parser.add_argument('--slack_channel', required=True, \
                         help="Slack channel to get alerts.", type=str)
-    parser.add_argument('--slack_username', required=True, \
-                        help="Slack username.", type=str)
     parser.add_argument('--slack_token', required=True, \
                         help="Slack Token.", type=str)
     parser.add_argument('--msg_prefix', default = '', required=False, \
@@ -122,7 +117,27 @@ if __name__ == '__main__':
     if white_pattern_list == ['']:
         white_pattern_list = []
 
+    slack_channel = l.slack_channel
+    slack_client = SlackClient(l.slack_token)
+
+    should_send_alert = True
     while True:
-        monitor_docker_slack("/var/run/docker.sock", white_pattern_list)
+        (status, err_msg) = monitor_docker_slack("/var/run/docker.sock", white_pattern_list)
+        if status == 1:
+            if should_send_alert is True:
+                slack_client.api_call(
+                    "chat.postMessage",
+                    channel = slack_channel,
+                    text = err_msg
+                )
+                # avoid send alerts over and over again
+                should_send_alert = False
+        else:
+            slack_client.api_call(
+                "chat.postMessage",
+                channel = slack_channel,
+                text = err_msg
+            )
+            should_send_alert = True
         time.sleep(check_interval)
 ## File : monitor-docker-slack.py ends
