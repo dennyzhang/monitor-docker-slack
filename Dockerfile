@@ -1,11 +1,11 @@
 ########## How To Use Docker Image ###############
 ##
-##  Image Name: denny/docker-healthcheck-notify-slack:latest
-##  Git link: https://github.com/DennyZhang/docker-healthcheck-notify-slack/blob/master/Dockerfile
+##  Image Name: denny/monitor-docker-slack:latest
+##  Git link: https://github.com/DennyZhang/monitor-docker-slack/blob/master/Dockerfile
 ##  Docker hub link:
-##  Build docker image: docker build --no-cache -t denny/docker-healthcheck-notify-slack:latest --rm=true .
+##  Build docker image: docker build --no-cache -t denny/monitor-docker-slack:latest --rm=true .
 ##  How to use:
-##      https://github.com/DennyZhang/docker-healthcheck-notify-slack/blob/master/README.md
+##      https://github.com/DennyZhang/monitor-docker-slack/blob/master/README.md
 ##
 ##  Description: Send slack alerts, if any containers run into unhealthy
 ##

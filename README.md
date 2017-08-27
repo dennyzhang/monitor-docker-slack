@@ -29,5 +29,5 @@ docker run -v /var/run/docker.sock:/var/run/docker.sock \
    -e SLACK_CHANNEL="$SLACK_CHANNEL" -e SLACK_USERNAME="$SLACK_USERNAME" \
    -e MSG_PREFIX="$MSG_PREFIX" -e SLACK_TOKEN="$SLACK_TOKEN" \
    -t -d --privileged -h $container_name --name $container_name \
-   denny/docker-healthcheck-notify-slack:latest
+   denny/monitor-docker-slack:latest
 ```
