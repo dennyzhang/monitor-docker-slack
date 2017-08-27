@@ -19,7 +19,7 @@ env SLACK_CHANNEL ""
 env SLACK_USERNAME ""
 env SLACK_TOKEN ""
 env MSG_PREFIX ""
-env CHECK_INTERVAL_MINS "300" # seconds
+env WHITE_LIST ""
 
 LABEL maintainer "Denny<denny@dennyzhang.com>"
 
@@ -30,4 +30,14 @@ Add monitor-docker-slack.py /monitor-docker-slack.py
 RUN chmod o+x /*.py && \
     pip install requests-unixsocket==0.1.5
 
-ENTRYPOINT ["/monitor-docker-slack.py"]
+env SLACK_CHANNEL ""
+env SLACK_USERNAME ""
+env SLACK_TOKEN ""
+env MSG_PREFIX ""
+
+ENTRYPOINT ["/monitor-docker-slack.py", \
+           "--whitelist", WHITE_LIST, \
+           "--slack_channel", SLACK_CHANNEL, \
+           "--slack_username", SLACK_USERNAME, \
+           "--slack_token", SLACK_TOKEN, \
+           "--msg_prefix", MSG_PREFIX]

@@ -9,7 +9,7 @@
 ## Description :
 ## --
 ## Created : <2017-08-20>
-## Updated: Time-stamp: <2017-08-27 15:25:58>
+## Updated: Time-stamp: <2017-08-27 15:36:12>
 ##-------------------------------------------------------------------
 import requests
 import re
@@ -107,6 +107,14 @@ if __name__ == '__main__':
                         help="Skip checking certain containers. A list of regexp separated by comma.", type=str)
     parser.add_argument('--check_interval', default='300', required=False, \
                         help="Periodical check. By seconds.", type=int)
+    parser.add_argument('--slack_channel', required=True, \
+                        help="Slack channel to get alerts.", type=str)
+    parser.add_argument('--slack_username', required=True, \
+                        help="Slack username.", type=str)
+    parser.add_argument('--slack_token', required=True, \
+                        help="Slack Token.", type=str)
+    parser.add_argument('--msg_prefix', default = '', required=False, \
+                        help="Slack message prefix.", type=str)
     l = parser.parse_args()
     check_interval = l.check_interval
     white_pattern_list = l.whitelist.split(',')
