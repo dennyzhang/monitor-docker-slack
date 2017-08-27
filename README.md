@@ -11,7 +11,7 @@ Read more: https://www.dennyzhang.com/docker_monitor
 
 3. Send slack notifications, we get matched of "unhealthy"
 
-# How To Use
+# How To Use: Plain Container
 - Specify slack credentials via env
 
 ```
@@ -37,6 +37,21 @@ docker run -v /var/run/docker.sock:/var/run/docker.sock \
 
 # Check status
 docker logs "$container_name"
+```
+
+# How To Use: Docker-compose
+```
+version: '2'
+services:
+  monitor-docker-slack:
+    container_name: monitor-docker-slack
+    image: denny/monitor-docker-slack:latest
+    environment:
+      SLACK_CHANNEL: "#XXX"
+      SLACK_USERNAME: "XXX"
+      SLACK_TOKEN: "xoxp-XXX-XXX-XXX-XXXXXXXX"
+      MSG_PREFIX: "Monitoring On XX.XX.XX.XX"
+    restart: always
 ```
 
 # More customization
