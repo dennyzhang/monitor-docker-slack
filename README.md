@@ -29,8 +29,9 @@ docker stop $container_name; docker rm "$container_name"
 # Start container to monitor docker healthcheck status
 docker run -v /var/run/docker.sock:/var/run/docker.sock \
    -t -d --privileged -h $container_name \
-   --name $container_name --restart=always \
-   denny/monitor-docker-slack:latest
+   -e SLACK_CHANNEL="$SLACK_CHANNEL" -e SLACK_USERNAME="$SLACK_USERNAME" \
+   -e SLACK_TOKEN="$SLACK_TOKEN" --restart=always \
+   --name $container_name denny/monitor-docker-slack:latest
 
 # Check status
 docker logs "$container_name"
