@@ -46,6 +46,8 @@ services:
   monitor-docker-slack:
     container_name: monitor-docker-slack
     image: denny/monitor-docker-slack:latest
+    volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
     environment:
       SLACK_CHANNEL: "#XXX"
       SLACK_USERNAME: "XXX"
