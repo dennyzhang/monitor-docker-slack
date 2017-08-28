@@ -9,7 +9,7 @@
 ## Description :
 ## --
 ## Created : <2017-08-20>
-## Updated: Time-stamp: <2017-08-27 18:17:35>
+## Updated: Time-stamp: <2017-08-27 20:49:15>
 ##-------------------------------------------------------------------
 import requests
 import re
@@ -94,7 +94,7 @@ def monitor_docker_slack(docker_sock_file, white_pattern_list):
         err_msg = "Detected Unhealthy Containers: \n%s\n%s" % (container_list_to_str(unhealthy_container_list), err_msg)
 
     if err_msg == "":
-        return("OK", "OK: no stopped or unhealthy containers")
+        return("OK", "OK: detect no stopped or unhealthy containers")
     else:
         return ("ERROR", err_msg)
 
