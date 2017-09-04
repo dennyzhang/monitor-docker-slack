@@ -29,7 +29,7 @@ docker stop $container_name; docker rm "$container_name"
 
 # Start container to monitor docker healthcheck status
 docker run -v /var/run/docker.sock:/var/run/docker.sock \
-   -t -d --privileged -h $container_name --name $container_name \
+   -t -d -h $container_name --name $container_name \
    -e SLACK_CHANNEL="$SLACK_CHANNEL" -e SLACK_USERNAME="$SLACK_USERNAME" \
    -e SLACK_TOKEN="$SLACK_TOKEN" -e MSG_PREFIX="$MSG_PREFIX" \
    -e WHITE_LIST="$WHITE_LIST" --restart=always \
@@ -69,3 +69,5 @@ export MSG_PREFIX="Docker Env in Denny's env"
 export WHITE_LIST="nodeexporter,ngin.*"
 ```
 ![](images/slack_whitelist.png)
+
+Discuss with Denny in [LinkedIn](https://www.linkedin.com/in/dennyzhang001) or [Blog](https://www.dennyzhang.com).
