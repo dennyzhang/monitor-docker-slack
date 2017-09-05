@@ -23,7 +23,7 @@ env WHITE_LIST ""
 # seconds
 env CHECK_INTERVAL "300"
 
-LABEL maintainer "Denny<denny@dennyzhang.com>"
+LABEL maintainer "Denny<contact@dennyzhang.com>"
 
 user root
 WORKDIR /
