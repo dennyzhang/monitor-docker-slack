@@ -69,13 +69,13 @@ services:
 ```
 export MSG_PREFIX="Docker Env in Denny's env"
 ```
-![](images/slack_prefix.png)
+<a href="https://www.dennyzhang.com"><img src="https://raw.githubusercontent.com/DennyZhang/monitor-docker-slack/master/images/slack_prefix.png"/> </a>
 
 - Skip checking certain containers by customizing WHITE_LIST env.
 ```
 export MSG_PREFIX="Docker Env in Denny's env"
 export WHITE_LIST="nodeexporter,ngin.*"
 ```
-![](images/slack_whitelist.png)
+<a href="https://www.dennyzhang.com"><img src="https://raw.githubusercontent.com/DennyZhang/monitor-docker-slack/master/images/slack_whitelist.png"/> </a>
 
 Code is licensed under [MIT License](https://www.dennyzhang.com/wp-content/mit_license.txt).

@@ -5,11 +5,11 @@
 ##   https://www.dennyzhang.com/wp-content/mit_license.txt
 ##
 ## File : monitor-docker-slack.py
-## Author : Denny <contact@dennyzhang.com>
+## Author : Denny <https://www.dennyzhang.com/contact>
 ## Description :
 ## --
 ## Created : <2017-08-20>
-## Updated: Time-stamp: <2017-09-07 21:35:00>
+## Updated: Time-stamp: <2017-11-13 11:00:53>
 ##-------------------------------------------------------------------
 import requests
 import re
