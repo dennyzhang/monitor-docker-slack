@@ -1,0 +1,13 @@
+version: '2'
+services:
+  monitor-docker-slack:
+    container_name: monitor-docker-slack
+    image: denny/monitor-docker-slack:latest
+    volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      SLACK_CHANNEL: "$SLACK_CHANNEL"
+      SLACK_USERNAME: "XXX"
+      SLACK_TOKEN: "$SLACK_TOKEN"
+      MSG_PREFIX: "$MSG_PREFIX"
+    restart: always
