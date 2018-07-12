@@ -4,6 +4,6 @@ python:
 # command to install dependencies
 install:
   - pip install slackclient==1.0.7
-  - pip install nose pylint requests
+  - pip install nose pylint requests requests_unixsocket
 # command to run tests
 script: find . -name "*.py" | xargs pylint -E
