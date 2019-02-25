@@ -1,9 +1,9 @@
 language: python
 python:
-  - "3.3"
+  - "3.6"
 # command to install dependencies
 install:
-  - pip install slackclient==1.0.7
-  - pip install nose pylint requests requests_unixsocket
+  - pip install -r requirements.txt
+  - pip install nose pylint
 # command to run tests
 script: find . -name "*.py" | xargs pylint -E

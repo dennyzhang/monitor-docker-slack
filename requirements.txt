@@ -1,2 +1,4 @@
 requests-unixsocket==0.1.5
 slackclient==1.3.0
+nose==1.3.7
+pylint==2.2.2
