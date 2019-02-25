@@ -15,26 +15,25 @@
 
 FROM python:3.6.2-jessie
 
-env SLACK_CHANNEL ""
-env SLACK_TOKEN ""
+ENV SLACK_CHANNEL ""
+ENV SLACK_TOKEN ""
 
-env MSG_PREFIX ""
-env WHITE_LIST ""
+ENV MSG_PREFIX ""
+ENV WHITE_LIST ""
 # seconds
-env CHECK_INTERVAL "300"
+ENV CHECK_INTERVAL "300"
 
-LABEL maintainer "Denny<https://www.dennyzhang.com/contact>"
+LABEL maintainer="Denny<https://www.dennyzhang.com/contact>"
 
-user root
+USER root
 WORKDIR /
 ADD monitor-docker-slack.py /monitor-docker-slack.py
 ADD monitor-docker-slack.sh /monitor-docker-slack.sh
 
 RUN chmod o+x /*.sh && chmod o+x /*.py && \
-    pip install requests-unixsocket==0.1.5 && \
-    pip install slackclient==1.0.7 && \
+    pip install -r requirements.txt && \
 # Verify docker image
     pip show requests-unixsocket | grep "0.1.5" && \
-    pip show slackclient | grep "1.0.7"    
+    pip show slackclient | grep "1.3.0"
 
 ENTRYPOINT ["/monitor-docker-slack.sh"]
