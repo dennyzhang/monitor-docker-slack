@@ -29,6 +29,7 @@ USER root
 WORKDIR /
 ADD monitor-docker-slack.py /monitor-docker-slack.py
 ADD monitor-docker-slack.sh /monitor-docker-slack.sh
+ADD requirements.txt /requirements.txt
 
 RUN chmod o+x /*.sh && chmod o+x /*.py && \
     pip install -r requirements.txt && \
