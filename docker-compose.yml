@@ -7,7 +7,8 @@ services:
      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       SLACK_CHANNEL: "$SLACK_CHANNEL"
-      SLACK_USERNAME: "XXX"
+      SLACK_USERNAME: "$SLACK_USERNAME"
       SLACK_TOKEN: "$SLACK_TOKEN"
       MSG_PREFIX: "$MSG_PREFIX"
+      CHECK_INTERVAL: "$CHECK_INTERVAL"
     restart: always
