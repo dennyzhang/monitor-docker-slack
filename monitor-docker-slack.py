@@ -104,6 +104,7 @@ if __name__ == '__main__':
     parser.add_argument('--check_interval', default='300', required=False, help="Periodical check. By seconds.",
                         type=int)
     parser.add_argument('--msg_prefix', default='', required=False, help="Slack message prefix.", type=str)
+    parser.add_argument('--slack_username', required=True, help="Slack username to post messages as.", type=str)
     l = parser.parse_args()
     check_interval = l.check_interval
     white_pattern_list = l.whitelist.split(',')
@@ -114,6 +115,7 @@ if __name__ == '__main__':
     slack_channel = l.slack_channel
     slack_token = l.slack_token
     msg_prefix = l.msg_prefix
+    slack_username = l.slack_username
 
     if slack_channel == '':
         print("Warning: Please provide slack channel, to receive alerts properly.")
@@ -121,9 +123,6 @@ if __name__ == '__main__':
         print("Warning: Please provide slack token.")
 
     slack_client = SlackClient(slack_token)
-
-    # TODO
-    slack_username = "@denny"
 
     has_send_error_alert = False
     while True:

@@ -13,7 +13,7 @@
 ##################################################
 # Base Docker image: https://hub.docker.com/_/python/
 
-FROM python:3.6.2-jessie
+FROM python:alpine3.8
 
 ENV SLACK_CHANNEL ""
 ENV SLACK_TOKEN ""
@@ -29,6 +29,7 @@ USER root
 WORKDIR /
 ADD monitor-docker-slack.py /monitor-docker-slack.py
 ADD monitor-docker-slack.sh /monitor-docker-slack.sh
+ADD requirements.txt /requirements.txt
 
 RUN chmod o+x /*.sh && chmod o+x /*.py && \
     pip install -r requirements.txt && \
