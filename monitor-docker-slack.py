@@ -17,7 +17,7 @@ import re
 import time
 
 import requests_unixsocket
-from slackclient import SlackClient
+import requests
 
 
 def name_in_list(name, name_pattern_list):
@@ -97,8 +97,7 @@ def monitor_docker_slack(docker_sock_file, white_pattern_list):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--slack_token', required=True, help="Slack Token.", type=str)
-    parser.add_argument('--slack_channel', required=True, help="Slack channel to get alerts.", type=str)
+    parser.add_argument('--slack_webhook', required=True, help="Slack webhook to post alerts.", type=str)
     parser.add_argument('--whitelist', default='', required=False,
                         help="Skip checking certain containers. A list of regexp separated by comma.", type=str)
     parser.add_argument('--check_interval', default='300', required=False, help="Periodical check. By seconds.",
@@ -111,19 +110,13 @@ if __name__ == '__main__':
     if white_pattern_list == ['']:
         white_pattern_list = []
 
-    slack_channel = l.slack_channel
-    slack_token = l.slack_token
+    slack_webhook = l.slack_webhook
     msg_prefix = l.msg_prefix
 
-    if slack_channel == '':
-        print("Warning: Please provide slack channel, to receive alerts properly.")
-    if slack_token == '':
-        print("Warning: Please provide slack token.")
+    if slack_webhook == '':
+        print("Warning: Please provide slack webhook, to receive alerts properly.")
 
-    slack_client = SlackClient(slack_token)
-
-    # TODO
-    slack_username = "@denny"
+    requests.post(slack_webhook, data=json.dumps({'text': 'Hello Channel! I am watching now!'}))
 
     has_send_error_alert = False
     while True:
@@ -133,13 +126,11 @@ if __name__ == '__main__':
         print("%s: %s" % (status, err_msg))
         if status == "OK":
             if has_send_error_alert is True:
-                slack_client.api_call("chat.postMessage", user=slack_username, as_user=False, channel=slack_channel,
-                                      text=err_msg)
+                requests.post(slack_webhook, data=json.dumps({'text': err_msg}))
                 has_send_error_alert = False
         else:
             if has_send_error_alert is False:
-                slack_client.api_call("chat.postMessage", user=slack_username, as_user=False, channel=slack_channel,
-                                      text=err_msg)
+                requests.post(slack_webhook, data=json.dumps({'text': err_msg}))
                 # avoid send alerts over and over again
                 has_send_error_alert = True
         time.sleep(check_interval)
